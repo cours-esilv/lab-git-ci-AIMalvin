@@ -2,6 +2,12 @@ name: Java CI
 
 on: [push, pull_request]
 
+permissions:
+  contents: read
+  issues: read
+  checks: write
+  pull-requests: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -18,8 +24,9 @@ jobs:
     - name: Build with Maven
       run: mvn --batch-mode --update-snapshots package
 
-    - name: Publish Unit Test Results
-      uses: EnricoMi/publish-unit-test-result-action@v1
+    - name: Publish Test Results
+      uses: EnricoMi/publish-unit-test-result-action@v2
       if: always()
       with:
-        files: target/**/*.xml
+        files: |
+          target/**/*.xml
